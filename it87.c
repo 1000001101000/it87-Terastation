@@ -559,7 +559,7 @@ static const struct it87_devices it87_devices[] = {
 		.num_temp_limit = 3,
 		.peci_mask = 0x07,
 	},
-	[it8613] = {
+        [it8613] = {
                 .name = "it8613",
                 .suffix = "E",
                 .features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
@@ -2967,7 +2967,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 
 		sio_data->beep_pin = superio_inb(sioaddr,
 						 IT87_SIO_BEEP_PIN_REG) & 0x3f;
-	} else if ( sio_data->type == it8620 || sio_data->type == it8628 ||
+	} else if (sio_data->type == it8620 || sio_data->type == it8628 ||
 		   sio_data->type == it8686) {
 		int reg;
 
@@ -3022,7 +3022,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 
 		sio_data->beep_pin = superio_inb(sioaddr,
 						 IT87_SIO_BEEP_PIN_REG) & 0x3f;
-	} else if (sio_data->type == it8622) {
+	} else if (sio_data->type == it8613 || sio_data->type == it8622) {
 		int reg;
 
 		superio_select(sioaddr, GPIO);
@@ -3303,6 +3303,16 @@ static void it87_init_device(struct platform_device *pdev)
 		data->REG_TEMP_LOW = IT87_REG_TEMP_LOW;
 		data->REG_TEMP_HIGH = IT87_REG_TEMP_HIGH;
 		break;
+	case it8613:
+                data->REG_FAN = IT87_REG_FAN;
+                data->REG_FANX = IT87_REG_FANX;
+                data->REG_FAN_MIN = IT87_REG_FAN_MIN;
+                data->REG_FANX_MIN = IT87_REG_FANX_MIN;
+                data->REG_PWM = IT87_REG_PWM_8665;
+                data->REG_TEMP_OFFSET = IT87_REG_TEMP_OFFSET;
+                data->REG_TEMP_LOW = IT87_REG_TEMP_LOW;
+                data->REG_TEMP_HIGH = IT87_REG_TEMP_HIGH;
+                break;
 	default:
 		data->REG_FAN = IT87_REG_FAN;
 		data->REG_FANX = IT87_REG_FANX;
