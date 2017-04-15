@@ -563,10 +563,9 @@ static const struct it87_devices it87_devices[] = {
                 .name = "it8613",
                 .suffix = "E",
                 .features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
-                  | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_SIX_FANS
-                  | FEAT_IN7_INTERNAL | FEAT_SIX_PWM | FEAT_PWM_FREQ2
-                  | FEAT_SIX_TEMP | FEAT_VIN3_5V | FEAT_SCALING
-                  | FEAT_FANCTL_ONOFF,
+                  | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_FIVE_FANS
+                  | FEAT_FIVE_PWM | FEAT_IN7_INTERNAL | FEAT_PWM_FREQ2
+                  | FEAT_AVCC3 | FEAT_VIN3_5V | FEAT_SCALING,
                 .num_temp_limit = 3,
                 .peci_mask = 0x07,
         },
@@ -2968,7 +2967,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 
 		sio_data->beep_pin = superio_inb(sioaddr,
 						 IT87_SIO_BEEP_PIN_REG) & 0x3f;
-	} else if (sio_data->type == it8613 || sio_data->type == it8620 || sio_data->type == it8628 ||
+	} else if ( sio_data->type == it8620 || sio_data->type == it8628 ||
 		   sio_data->type == it8686) {
 		int reg;
 
@@ -3397,7 +3396,6 @@ static void it87_init_device(struct platform_device *pdev)
 		data->has_fan |= BIT(4); /* fan5 enabled */
 	if (has_six_fans(data)) {
 		switch (data->type) {
-		case it8613:
 		case it8620:
 		case it8628:
 		case it8686:
@@ -3420,7 +3418,6 @@ static void it87_init_device(struct platform_device *pdev)
 	/* Check if pwm6 is enabled */
 	if (has_six_pwm(data)) {
 		switch (data->type) {
-		case it8613:
 		case it8620:
 		case it8686:
 			tmp = it87_read_value(data, IT87_REG_FAN_DIV);
