@@ -562,7 +562,7 @@ static const struct it87_devices it87_devices[] = {
         [it8613] = {
                 .name = "it8613",
                 .suffix = "E",
-                .features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
+                .features = FEAT_NEWER_AUTOPWM | FEAT_11MV_ADC | FEAT_16BIT_FANS
                   | FEAT_TEMP_OFFSET | FEAT_TEMP_PECI | FEAT_FIVE_FANS
                   | FEAT_FIVE_PWM | FEAT_IN7_INTERNAL | FEAT_PWM_FREQ2
                   | FEAT_AVCC3 | FEAT_VIN3_5V | FEAT_SCALING,
